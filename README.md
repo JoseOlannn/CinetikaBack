@@ -1,119 +1,205 @@
-# 🎬 Cinetika — Backend (API REST)
+# 🎬 Cinetika Backend API
 
-> API RESTful para la plataforma **Cinetika**, un explorador de contenido audiovisual con estética retro ochentera, inspirada en el **arte pop** y la **Bauhaus**.
+Backend REST API para plataforma de exploración de contenido audiovisual (con estética retro ochentera inspirada en el arte pop y la Bauhaus) desarrollado con Node.js, Express y MongoDB Atlas.
 
----
+## 🎯 Objetivo
 
-## 📌 1. Descripción General
+Proporcionar endpoints RESTful para gestionar el catálogo de películas y usuarios de la plataforma **Cinetika**, facilitando la integración con el frontend mediante consultas de catálogo, vista de detalles, búsquedas por título y filtros por género y categoría.
 
-Este repositorio contiene el **Backend** del proyecto Cinetika. Proporciona una API REST modular construida sobre **Node.js** y **Express.js**, encargada de la lógica de negocio, autenticación, gestión de usuarios y consulta del catálogo de películas, series y cortometrajes almacenados en **MongoDB**.
+## 🚀 Funcionalidades
 
----
+### Películas
+* ✅ CRUD completo (Crear, Leer, Actualizar, Eliminar)
+* ✅ Búsqueda de títulos por nombre (`?nombre=texto`)
+* ✅ Filtrado por género y tipo de contenido (`?genero=accion&categoria=pelicula`)
+* ✅ Vista de detalles completos (sinopsis, año, géneros, duración, calificación y enlace de video)
+* ✅ Soporte para enlaces de reproducción en Vimeo, Pexels o YouTube
+* ✅ Respuestas JSON estandarizadas
 
-## 🛠️ 2. Stack Tecnológico
+### Usuarios
+* ✅ Listado de usuarios registrados
+* ✅ Registro de nuevos usuarios con validación de campos requeridos
+* ✅ Respuestas JSON estandarizadas
 
-| Capa / Herramienta | Tecnología | Descripción |
-|--------------------|------------|-------------|
-| **Entorno de Ejecución** | [Node.js](https://nodejs.org/) (v18+) | Plataforma para ejecutar JavaScript del lado del servidor. |
-| **Framework Web** | [Express.js](https://expressjs.com/) | Framework minimalista y flexible para la creación de rutas, controladores y middlewares. |
-| **Base de Datos** | [MongoDB](https://www.mongodb.com/) | Base de datos NoSQL documental para almacenar usuarios y catálogo audiovisual. |
-| **ODM** | [Mongoose](https://mongoosejs.com/) | Modelado de datos orientado a objetos y esquemas con validaciones para MongoDB. |
-| **CORS** | [cors](https://www.npmjs.com/package/cors) | Middleware para habilitar intercambio de recursos de origen cruzado con el frontend (React + Vite). |
-| **Configuración** | [dotenv](https://www.npmjs.com/package/dotenv) | Carga de variables de entorno desde archivos `.env`. |
+## 📋 Endpoints Disponibles
 
----
+### Películas
+```text
+GET    /api/peliculas                                  - Obtener catálogo completo de películas
+GET    /api/peliculas?nombre=texto                     - Buscar títulos por nombre
+GET    /api/peliculas?genero=accion&categoria=pelicula - Filtrar por género y categoría
+GET    /api/peliculas/:id                              - Obtener detalles de una película específica
+POST   /api/peliculas                                  - Crear nueva película
+PUT    /api/peliculas/:id                              - Actualizar película existente
+DELETE /api/peliculas/:id                              - Eliminar película
+```
 
-## 📁 3. Estructura del Proyecto
+### Usuarios
+```text
+GET    /api/usuarios          - Listar todos los usuarios
+POST   /api/usuarios          - Crear nuevo usuario
+```
 
-El backend sigue una arquitectura limpia basada en separación de responsabilidades (**MVC - Modelos, Controladores y Rutas**):
+## 🛠️ Tecnologías Utilizadas
+
+### Core
+* **Node.js** - Runtime de JavaScript
+* **Express.js** - Framework web
+* **MongoDB Atlas** - Base de datos en la nube
+* **Mongoose** - ODM para MongoDB
+
+### Configuración & Middleware
+* **CORS** - Cross-Origin Resource Sharing
+* **dotenv** - Carga de variables de entorno
+* **express.json()** - Parsing de requests en formato JSON
+
+## 📁 Estructura del Proyecto
 
 ```text
 CinetikaBack/
-├── controllers/          # Controladores: lógica de negocio y peticiones/respuestas
-├── models/               # Modelos: esquemas y datos (Mongoose)
-├── routes/               # Rutas: definición de endpoints de la API
-├── .env.example          # Plantilla de variables de entorno
-├── .gitignore            # Exclusión de node_modules, .env y temporales
-├── CONTRIBUTING.md       # Reglas de ramas, commits y Pull Requests
-├── package.json          # Metadatos del proyecto, dependencias y scripts
-└── README.md             # Documentación del backend
+├── app.js                        # Punto de entrada de la aplicación
+├── config/                       # Configuración de base de datos
+│   └── database.js               # Conexión a MongoDB con Mongoose
+├── controllers/                  # Lógica de negocio
+│   ├── peliculaController.js
+│   └── userController.js
+├── models/                       # Esquemas de MongoDB
+│   ├── peliculaModel.js
+│   └── userModel.js
+├── routes/                       # Definición de rutas
+│   ├── peliculaRoutes.js
+│   └── userRoutes.js
+├── CONTRIBUTING.md               # Reglas de ramas, commits y Pull Requests
+└── package.json                  # Dependencias y scripts del proyecto
 ```
 
----
+## 🔧 Instalación y Configuración
 
-## 🎯 4. Alcance y Funcionalidades del Backend
-
-* 🔐 **Gestión de Usuarios y Roles:**
-  * Registro de usuarios y control de acceso.
-  * Diferenciación de roles (`usuario` y `administrador`).
-  * Perfil de usuario con soporte de avatar personalizado o por defecto.
-* 🎞️ **Gestión de Catálogo Audiovisual:**
-  * Películas, series y cortometrajes.
-  * Metadatos: póster, título, año de estreno, duración, sinopsis, calificación y géneros.
-* 🔎 **Búsquedas y Filtros:**
-  * Búsqueda por título.
-  * Filtrado por género y categoría.
-
----
-
-## 🚀 5. Instalación y Puesta en Marcha
-
-### Requisitos Previos
-* [Node.js](https://nodejs.org/) versión 18 o superior.
-* [MongoDB](https://www.mongodb.com/) (instancia local en ejecución o clúster en [MongoDB Atlas](https://www.mongodb.com/atlas)).
-
-### 1. Clonar el repositorio y navegar a la carpeta
+### 1. Clonar e instalar dependencias
 ```bash
 git clone https://github.com/JoseOlannn/Cinetika.git
 cd CinetikaBack
-```
-
-### 2. Instalar dependencias
-```bash
 npm install
 ```
 
-### 3. Configurar variables de entorno
-Copia el archivo `.env.example` y renómbralo a `.env`:
-```bash
-cp .env.example .env
-```
-Configura las variables según tu entorno:
+### 2. Configurar variables de entorno
+Crear archivo `.env` en la raíz:
+
 ```env
 PORT=4000
-MONGODB_URI=mongodb://localhost:27017/cinetika
+MONGO_URI=mongodb+srv://usuario:password@cluster.mongodb.net/cinetika_db
+DEFAULT_PROFILE_IMAGE=/assets/avatars/default-retro-bauhaus.png
 ```
 
-### 4. Iniciar el servidor
+### 3. Iniciar servidor
+```bash
+# Desarrollo
+npm run dev
 
-* **Modo desarrollo (con reinicio automático al guardar cambios):**
-  ```bash
-  npm run dev
-  ```
+# Producción
+npm start
+```
 
-* **Modo producción:**
-  ```bash
-  npm start
-  ```
+## 📊 Modelos de Datos
 
-El servidor estará disponible en: `http://localhost:4000`
+### Pelicula
+```javascript
+{
+  nombre: String (requerido),
+  categoria: String (default: 'pelicula'),
+  anio: Number (requerido),
+  poster: String (requerido, URL o ruta de imagen),
+  sinopsis: String (requerido),
+  duracion: String (requerido, ej: "117 min"),
+  generos: [String] (requerido, ej: ["Ciencia Ficción", "Acción"]),
+  calificacion: Number (default: 0, min: 0, max: 5),
+  videoUrl: String (URL de Vimeo / Pexels / YouTube),
+  createdAt: Date (auto),
+  updatedAt: Date (auto)
+}
+```
+
+### Usuario
+```javascript
+{
+  nombre: String (requerido),
+  email: String (requerido, único),
+  createdAt: Date (auto),
+  updatedAt: Date (auto)
+}
+```
+
+## 🔌 Integración Frontend
+
+### Ejemplo de uso con fetch
+```javascript
+// Obtener catálogo de películas
+const response = await fetch('http://localhost:4000/api/peliculas');
+const peliculas = await response.json();
+
+// Buscar películas por nombre
+const busqueda = await fetch('http://localhost:4000/api/peliculas?nombre=Blade');
+const resultados = await busqueda.json();
+
+// Filtrar películas por género y categoría
+const filtradas = await fetch(
+  'http://localhost:4000/api/peliculas?genero=Acción&categoria=pelicula'
+);
+
+// Crear nueva película
+const nuevaPelicula = await fetch('http://localhost:4000/api/peliculas', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    nombre: 'Blade Runner',
+    categoria: 'pelicula',
+    anio: 1982,
+    poster: '/assets/posters/blade-runner-1982.jpg',
+    sinopsis: 'En un futuro distópico, el ex policía Rick Deckard es llamado para rastrear y retirar a cuatro replicantes.',
+    duracion: '117 min',
+    generos: ['Ciencia Ficción', 'Acción'],
+    calificacion: 4.8,
+    videoUrl: 'https://vimeo.com/ejemplo'
+  })
+});
+```
+
+## 🧪 Testing
+
+* **Postman** - Testing de APIs
+* **Insomnia** - Cliente REST alternativo
+
+## 📝 Scripts Disponibles
+
+```bash
+npm run dev      # Desarrollo con recarga automática (node --watch)
+npm start        # Producción
+```
+
+## 🔒 Seguridad
+
+* ✅ Validación de campos requeridos en controladores y esquemas Mongoose
+* ✅ Sanitización básica de datos (`trim`, `lowercase`)
+* ✅ CORS configurado
+* ✅ Manejo de errores estandarizado en cada controlador
+
+## 🚀 Próximas Funcionalidades
+
+* [ ] Módulo de Series
+* [ ] Módulo de Cortometrajes
+* [ ] Módulo de Géneros (`/api/generos`)
+* [ ] Autenticación JWT (`/api/auth`)
+* [ ] Script de Seed para poblar la base de datos
+
+## 📞 Soporte
+
+Para dudas técnicas o problemas de integración, revisar:
+
+* Logs del servidor
+* Respuestas de error de la API
+* Configuración de variables de entorno (`.env`)
+* Conexión a MongoDB Atlas
 
 ---
 
-## 📡 6. Endpoints Base
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `GET` | `/` | Comprobación de salud de la API (Health check) |
-| `GET` | `/api/users` | Obtener la lista de usuarios |
-| `GET` | `/api/users/:id` | Obtener un usuario por su ID |
-| `POST` | `/api/users` | Registrar un nuevo usuario |
-
----
-
-## 🤝 7. Flujo de Trabajo y Contribuciones
-
-Para mantener el código ordenado y estable, consulta [CONTRIBUTING.md](./CONTRIBUTING.md):
-* Está **prohibido subir directamente a `main`**.
-* Todo cambio debe desarrollarse en una rama propia (`feat/`, `fix/`, `docs/`, `refactor/`) y pasar por un Pull Request aprobado.
-* Nunca subir al repositorio credenciales ni dependencias (`node_modules/`, `.env`).
+Desarrollado con ❤️ para **Cinetika**.
