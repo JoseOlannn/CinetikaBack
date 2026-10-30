@@ -5,7 +5,9 @@ const userSchema = new mongoose.Schema(
         nombre:{
             type: String,
             required: true,
-            trim: true
+            trim: true,
+            minLenght: 2,
+            maxlength: 80
         },
         email:{
             type: String,
@@ -13,6 +15,11 @@ const userSchema = new mongoose.Schema(
             unique: true,
             required: true,
             lowercase: true
+        },
+        password: {
+            type: String,
+            required: true,
+            select: false
         }
     },
     {
@@ -20,7 +27,9 @@ const userSchema = new mongoose.Schema(
     }
 )
 
-const Usuario = mongoose.model("Usuario", userSchema)
+const Usuario = mongoose.models.Usuario || mongoose.model("Usuario", userSchema)
+
+
 module.exports = Usuario
 
 

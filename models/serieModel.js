@@ -9,15 +9,6 @@ const serieSchema = new mongoose.Schema(
             trim: true,
             maxlength: 150
         },
-
-        /*
-         * Actualmente se guarda como texto para mantener compatibilidad
-         * con el modelo Pelicula del equipo.
-         *
-         * FUTURA MIGRACIÓN:
-         * Se podrá cambiar a ObjectId con ref: 'Categoria' cuando el
-         * equipo acuerde migrar ambos modelos (Películas y Series) y los datos existentes.
-         */
         categoria: {
             type: String,
             default: 'serie',
