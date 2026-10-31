@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose')
 
 const serieSchema = new mongoose.Schema(
@@ -28,6 +27,18 @@ const serieSchema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true
+        },
+
+        banner: {
+            type: String,
+            trim: true,
+            default: ''
+        },
+
+        duracion: {
+            type: String,
+            trim: true,
+            default: ''
         },
 
         sinopsis: {

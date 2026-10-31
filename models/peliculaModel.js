@@ -22,6 +22,11 @@ const peliculaSchema = new mongoose.Schema(
             required: true,
             trim: true
         },
+        banner: {
+            type: String,
+            trim: true,
+            default: ''
+        },
         sinopsis: {
             type: String,
             required: true,

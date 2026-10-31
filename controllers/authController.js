@@ -1,5 +1,4 @@
 const Usuario = require('../models/userModel')
-
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -24,16 +23,26 @@ const registrarUsuario = async (req, res, next) => {
         const usuario = await Usuario.create({
             nombre,
             email,
-            password: passwordHash
+            password: passwordHash,
+            foto_perfil: ''
         })
 
-        // Responder 
+        // Generar JWT para inicio de sesión inmediato si se desea
+        const token = jwt.sign(
+            { sub: usuario._id.toString() },
+            process.env.JWT_SECRET,
+            { expiresIn: '7d', algorithm: 'HS256' }
+        )
+
+        // Responder
         return res.status(201).json({
             mensaje: 'Usuario registrado correctamente.',
+            token,
             usuario: {
                 id: usuario._id,
                 nombre: usuario.nombre,
-                email: usuario.email
+                email: usuario.email,
+                foto_perfil: usuario.foto_perfil || ''
             }
         })
 
@@ -41,7 +50,6 @@ const registrarUsuario = async (req, res, next) => {
         next(error)
     }
 }
-
 
 // Iniciar sesión
 const iniciarSesion = async (req, res, next) => {
@@ -74,14 +82,9 @@ const iniciarSesion = async (req, res, next) => {
 
         // Generar JWT
         const token = jwt.sign(
-            {
-                sub: usuario._id.toString()
-            },
+            { sub: usuario._id.toString() },
             process.env.JWT_SECRET,
-            {
-                expiresIn: '1h',
-                algorithm: 'HS256'
-            }
+            { expiresIn: '7d', algorithm: 'HS256' }
         )
 
         return res.status(200).json({
@@ -90,7 +93,8 @@ const iniciarSesion = async (req, res, next) => {
             usuario: {
                 id: usuario._id,
                 nombre: usuario.nombre,
-                email: usuario.email
+                email: usuario.email,
+                foto_perfil: usuario.foto_perfil || ''
             }
         })
 
@@ -98,7 +102,6 @@ const iniciarSesion = async (req, res, next) => {
         next(error)
     }
 }
-
 
 module.exports = {
     registrarUsuario,
