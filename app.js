@@ -10,6 +10,7 @@ const peliculaRoutes = require('./routes/peliculaRoutes')
 const serieRoutes = require('./routes/serieRoutes')
 const temporadaRoutes = require('./routes/temporadaRoutes')
 const episodioRoutes = require('./routes/episodioRoutes')
+const catalogoRoutes = require('./routes/catalogoRoutes')
 
 const errorMiddleware = require('./middlewares/error.middleware')
 
@@ -26,11 +27,12 @@ app.use('/api/peliculas', peliculaRoutes)
 app.use('/api/series', serieRoutes)
 app.use('/api/temporadas', temporadaRoutes)
 app.use('/api/episodios', episodioRoutes)
+app.use('/api/catalogo', catalogoRoutes)
 
 // Middleware centralizado de errores
 app.use(errorMiddleware)
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 4000
 
 const iniciarServidor = async () => {
     await conectarDB()

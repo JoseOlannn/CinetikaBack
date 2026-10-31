@@ -1,4 +1,3 @@
-
 const { z } = require('zod')
 
 // Valida el identificador de MongoDB recibido en la URL.
@@ -28,6 +27,14 @@ const crearSerieSchema = z.object({
         .trim()
         .min(1, 'El póster es obligatorio.'),
 
+    banner: z.string()
+        .trim()
+        .optional(),
+
+    duracion: z.string()
+        .trim()
+        .optional(),
+
     sinopsis: z.string()
         .trim()
         .min(1, 'La sinopsis es obligatoria.')
@@ -48,12 +55,9 @@ const crearSerieSchema = z.object({
 })
 
 // PUT: requiere todos los campos esenciales del recurso.
-// calificacion y videoUrl pueden omitirse porque tienen valores
-// predeterminados en el modelo.
 const reemplazarSerieSchema = crearSerieSchema
 
 // PATCH: permite enviar uno o varios campos.
-// Rechaza una petición vacía.
 const actualizarSerieSchema = crearSerieSchema
     .partial()
     .refine(

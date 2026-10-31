@@ -131,6 +131,16 @@ PUT    /api/peliculas/:id                              - Actualizar película ex
 
 DELETE /api/peliculas/:id                              - Eliminar película
 
+### 🎬 Catálogo Unificado (Frontend)
+```text
+
+GET    /api/catalogo                                   - Obtener catálogo unificado (películas, series y cortometrajes)
+GET    /api/catalogo?categoria=pelicula                - Filtrar catálogo unificado por categoría ('pelicula', 'serie', 'cortometraje')
+GET    /api/catalogo?genero=Accion                     - Filtrar catálogo unificado por género
+GET    /api/catalogo?nombre=texto                      - Buscar en el catálogo unificado por título
+GET    /api/catalogo/:id                               - Obtener detalles de un contenido por ID (película o serie)
+```
+
 ```
 
 
@@ -286,6 +296,9 @@ Si las credenciales son correctas, la respuesta de login incluye un token JWT. E
 
 ```text
 GET    /api/usuarios          - Listar todos los usuarios registrados
+GET    /api/usuarios/:id      - Obtener información pública de un usuario específico
+PUT    /api/usuarios/:id      - Actualizar información básica (nombre, foto_perfil, contraseña)
+DELETE /api/usuarios/:id      - Eliminar cuenta de usuario permanentemente
 ```
 
 `GET /api/usuarios` consulta los usuarios existentes y no requiere token. El registro no se realiza mediante `POST /api/usuarios`; se centraliza en `POST /api/auth/register` para que la contraseña pase por validación y se almacene como hash.
@@ -334,6 +347,7 @@ CinetikaBack/
 ├── controllers/
 
 │   ├── authController.js
+│   ├── catalogoController.js
 │   ├── peliculaController.js
 
 │   ├── userController.js
@@ -365,6 +379,7 @@ CinetikaBack/
 ├── routes/
 
 │   ├── authRoutes.js
+│   ├── catalogoRoutes.js
 │   ├── peliculaRoutes.js
 
 │   ├── userRoutes.js
@@ -391,6 +406,7 @@ CinetikaBack/
 ├── .gitignore
 
 ├── package.json
+├── seed.js                       # Script para sembrar datos iniciales en MongoDB Atlas
 
 └── README.md
 
@@ -468,6 +484,10 @@ JWT_SECRET=REEMPLAZAR_POR_UN_SECRETO_ALEATORIO
   anio: **Number** (requerido),
 
   poster: **String** (requerido, URL o ruta de imagen),
+
+  banner: **String** (opcional, URL horizontal para el Hero Banner),
+
+  videoUrl: **String** (opcional, URL de YouTube / Vimeo / MP4),
 
   sinopsis: **String** (requerido),
 
@@ -558,6 +578,8 @@ Los campos editables de la serie se documentan en `models/serieModel.js`. Incluy
   email: **String** (requerido, único),
 
   password: **String** (requerido, hash de contraseña; excluido de consultas por defecto),
+
+  foto_perfil: **String** (opcional, URL o Base64 de la imagen de perfil),
 
   createdAt: **Date** (auto),
 
@@ -816,6 +838,14 @@ Ambas capas se complementan, pero no sustituyen las comprobaciones de relaciones
 const response = await **fetch**('http://localhost:4000/api/peliculas');
 
 const peliculas = await response.**json**();
+
+// Obtener catálogo unificado (películas, series y cortometrajes)
+const resCatalogo = await fetch('http://localhost:4000/api/catalogo');
+const catalogo = await resCatalogo.json();
+
+// Obtener un contenido por ID
+const resDetalle = await fetch('http://localhost:4000/api/catalogo/6723f...');
+const detalle = await resDetalle.json();
 
 
 
