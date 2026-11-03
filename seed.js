@@ -2,6 +2,7 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const Pelicula = require('./models/peliculaModel')
 const Serie = require('./models/serieModel')
+const Cortometraje = require('./models/cortometrajeModel')
 
 const genresMap = {
     1: 'Ciencia Ficción',
@@ -98,9 +99,10 @@ async function sembrarDatos() {
 
         const totalPelis = await Pelicula.countDocuments()
         const totalSeries = await Serie.countDocuments()
+        const totalCortos = await Cortometraje.countDocuments()
 
-        if (totalPelis > 0 || totalSeries > 0) {
-            console.log(`Ya existen datos (${totalPelis} películas, ${totalSeries} series). Omitiendo sembrado.`)
+        if (totalPelis > 0 || totalSeries > 0 || totalCortos > 0) {
+            console.log(`Ya existen datos (${totalPelis} películas, ${totalSeries} series, ${totalCortos} cortometrajes). Omitiendo sembrado.`)
             process.exit(0)
         }
 
@@ -120,6 +122,20 @@ async function sembrarDatos() {
                     calificacion: item.calificacion,
                     videoUrl: item.videoUrl
                 })
+            } else if (item.categoria === 'cortometraje') {
+                await Cortometraje.create({ // <--- Ahora usa el modelo correcto
+                    nombre: item.nombre,
+                    categoria: 'cortometraje',
+                    anio: item.anio,
+                    poster: item.poster,
+                    banner: item.banner,
+                    duracion: item.duracion,
+                    sinopsis: item.sinopsis,
+                    generos: generosNombres,
+                    calificacion: item.calificacion,
+                    videoUrl: item.videoUrl
+                })
+
             } else {
                 await Pelicula.create({
                     nombre: item.nombre,

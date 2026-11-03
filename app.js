@@ -11,6 +11,7 @@ const serieRoutes = require('./routes/serieRoutes')
 const temporadaRoutes = require('./routes/temporadaRoutes')
 const episodioRoutes = require('./routes/episodioRoutes')
 const catalogoRoutes = require('./routes/catalogoRoutes')
+const cortometrajeRoutes = require('./routes/cortometrajeRoutes')
 
 const errorMiddleware = require('./middlewares/error.middleware')
 
@@ -28,6 +29,7 @@ app.use('/api/series', serieRoutes)
 app.use('/api/temporadas', temporadaRoutes)
 app.use('/api/episodios', episodioRoutes)
 app.use('/api/catalogo', catalogoRoutes)
+app.use('/api/cortometrajes', cortometrajeRoutes)
 
 // Middleware centralizado de errores
 app.use(errorMiddleware)
