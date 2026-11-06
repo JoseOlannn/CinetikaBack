@@ -1,5 +1,6 @@
 const Pelicula = require('../models/peliculaModel')
 const Serie = require('../models/serieModel')
+const Cortometraje = require('../models/cortometrajeModel')
 
 // GET /api/catalogo
 const obtenerCatalogo = async (req, res, next) => {
@@ -8,19 +9,23 @@ const obtenerCatalogo = async (req, res, next) => {
 
         let filtroPelicula = {}
         let filtroSerie = {}
+        let filtroCortometraje = {}
 
         if (nombre) {
             filtroPelicula.nombre = { $regex: nombre, $options: 'i' }
             filtroSerie.nombre = { $regex: nombre, $options: 'i' }
+            filtroCortometraje.nombre = { $regex: nombre, $options: 'i' }
         }
 
         if (genero) {
             filtroPelicula.generos = { $regex: genero, $options: 'i' }
             filtroSerie.generos = { $regex: genero, $options: 'i' }
+            filtroCortometraje.generos = { $regex: genero, $options: 'i' }
         }
 
         let peliculas = []
         let series = []
+        let cortometrajes = []
 
         if (!categoria || categoria === 'pelicula' || categoria === 'cortometraje') {
             if (categoria) {
@@ -33,8 +38,12 @@ const obtenerCatalogo = async (req, res, next) => {
             series = await Serie.find(filtroSerie).lean()
         }
 
+        if (!categoria || categoria === 'cortometraje') {
+            series = await Cortometraje.find(filtroCortometraje).lean()
+        }
+
         // Asegurar que cada elemento tenga un id accesible además de _id
-        const resultado = [...peliculas, ...series].map(item => ({
+        const resultado = [...peliculas, ...series, ...cortometrajes].map(item => ({
             ...item,
             id: item._id.toString()
         }))
@@ -56,6 +65,9 @@ const obtenerContenidoPorId = async (req, res, next) => {
             item = await Pelicula.findById(id).lean()
             if (!item) {
                 item = await Serie.findById(id).lean()
+            }
+            if (!item) {
+                item = await Cortometraje.findById(id).lean()
             }
         }
 
