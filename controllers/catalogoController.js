@@ -27,10 +27,7 @@ const obtenerCatalogo = async (req, res, next) => {
         let series = []
         let cortometrajes = []
 
-        if (!categoria || categoria === 'pelicula' || categoria === 'cortometraje') {
-            if (categoria) {
-                filtroPelicula.categoria = categoria.toLowerCase()
-            }
+        if (!categoria || categoria === 'pelicula') {
             peliculas = await Pelicula.find(filtroPelicula).lean()
         }
 
@@ -39,7 +36,7 @@ const obtenerCatalogo = async (req, res, next) => {
         }
 
         if (!categoria || categoria === 'cortometraje') {
-            series = await Cortometraje.find(filtroCortometraje).lean()
+            cortometrajes = await Cortometraje.find(filtroCortometraje).lean()
         }
 
         // Asegurar que cada elemento tenga un id accesible además de _id
@@ -59,7 +56,7 @@ const obtenerContenidoPorId = async (req, res, next) => {
     try {
         const { id } = req.params
 
-        // Buscar primero en Peliculas
+        // Buscar primero en Peliculas, luego en Series, luego en Cortometrajes
         let item = null
         if (/^[0-9a-fA-F]{24}$/.test(id)) {
             item = await Pelicula.findById(id).lean()
@@ -88,4 +85,3 @@ module.exports = {
     obtenerCatalogo,
     obtenerContenidoPorId
 }
-
