@@ -24,10 +24,17 @@ const registroSchema = z.object({
 
     confirmarPassword: z.string({
         error: 'Debes confirmar tu contraseña.'
-    })
-        .min(1, 'Debes confirmar tu contraseña.')
+    }).optional(),
+
+    confirmPassword: z.string({
+        error: 'Debes confirmar tu contraseña.'
+    }).optional()
 }).refine(
-    (datos) => datos.password === datos.confirmarPassword,
+    (datos) => {
+        const confirmacion = datos.confirmarPassword ?? datos.confirmPassword;
+        if (confirmacion === undefined) return true;
+        return datos.password === confirmacion;
+    },
     {
         message: 'Las contraseñas no coinciden.',
         path: ['confirmarPassword']
