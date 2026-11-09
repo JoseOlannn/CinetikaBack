@@ -21,7 +21,34 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-// Rutas
+// Middleware para asegurar la conexión a la base de datos (compatible con Serverless y Local)
+app.use(async (req, res, next) => {
+    try {
+        await conectarDB()
+        next()
+    } catch (error) {
+        next(error)
+    }
+})
+
+// Ruta raíz de bienvenida y health check
+app.get('/', (req, res) => {
+    res.json({
+        mensaje: 'API de Cinetika funcionando correctamente',
+        estado: 'Online',
+        version: '1.0.0',
+        endpoints: [
+            '/api/catalogo',
+            '/api/auth',
+            '/api/usuarios',
+            '/api/peliculas',
+            '/api/series',
+            '/api/cortometrajes'
+        ]
+    })
+})
+
+// Rutas de la API
 app.use('/api/auth', authRoutes)
 app.use('/api/usuarios', userRoutes)
 app.use('/api/peliculas', peliculaRoutes)
@@ -34,13 +61,21 @@ app.use('/api/cortometrajes', cortometrajeRoutes)
 // Middleware centralizado de errores
 app.use(errorMiddleware)
 
-const PORT = process.env.PORT || 4000
+// Exportar app para despliegues Serverless (como Vercel)
+module.exports = app
 
-const iniciarServidor = async () => {
-    await conectarDB()
-    app.listen(PORT, () => {
-        console.log(`Servidor corriendo en http://localhost:${PORT}`)
-    })
+// Iniciar servidor local si no estamos en entorno Vercel
+if (!process.env.VERCEL) {
+    const PORT = process.env.PORT || 4000
+    const iniciarServidor = async () => {
+        try {
+            await conectarDB()
+            app.listen(PORT, () => {
+                console.log(`Servidor corriendo en http://localhost:${PORT}`)
+            })
+        } catch (error) {
+            console.error('Error al iniciar el servidor:', error.message)
+        }
+    }
+    iniciarServidor()
 }
-
-iniciarServidor()
