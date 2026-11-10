@@ -203,7 +203,7 @@ const mockContents = [
         categoria: 'cortometraje',
         anio: 1986,
         poster: 'https://m.media-amazon.com/images/M/MV5BMWUzZDMzYjgtMjU1MS00YjNjLWJjMWUtMDA0ODRiNTZlYzg2XkEyXkFqcGc@._V1_.jpg',
-        banner: 'https://image.tmdb.org/t/p/original/t6u7p8m9q1x3k5.jpg',
+        banner: 'https://disney.images.edge.bamgrid.com/ripcut-delivery/v2/variant/disney/019b26c4-c968-7de9-9bc7-e3328ae13e70/compose?aspectRatio=1.78&format=webp&width=1200',
         sinopsis: 'Un flexo grande observa cómo un flexo más pequeño juega con una pelota de goma que acaba pinchándose.',
         duracion: '2 min',
         generos: [6, 4],
@@ -221,6 +221,30 @@ const mockContents = [
         generos: [6, 3],
         calificacion: 4.8,
         videoUrl: 'https://youtu.be/nbBLLNGeyiY?si=QrGMpE8Lwoxov6rB'
+    },
+    {
+        nombre: 'Piper',
+        categoria: 'cortometraje',
+        anio: 2019,
+        poster: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkMbhhGWM3kcbXVdf9uBQmeztDsktR-dfMGseaxd_BRfFX5IfxCBdjg8V4&s=10',
+        banner: 'https://images.squarespace-cdn.com/content/v1/60241cb68df65b530cd84d95/2b411d18-d528-4638-a63d-ea83587551c5/Piper_head.jpg',
+        sinopsis: 'Un pequeño pájaro aprende a superar su miedo al agua mientras busca comida en la playa.',
+        duracion: '3 min',
+        generos: [6, 4],
+        calificacion: 4.9,
+        videoUrl: 'https://www.youtube.com/watch?v=WIPV1iwzrzg'
+    },
+    {
+        nombre: 'One Man Band',
+        categoria: 'cortometraje',
+        anio: 2014,
+        poster: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5v5yKHvHi4TUXOtzv4RqiQcKMI8dDnenqUeUwLs5IkCzPURXSHHjCxm6Z&s=10',
+        banner: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTcNXsB7tiSjnKnixJzuUWIR5HNk_xg5YGwWuAFR1fBfGcB0-XQhUZXtcso&s=10',
+        sinopsis: 'Dos músicos callejeros compiten por la atención de una niña que pasa por la plaza del pueblo, mostrando sus habilidades musicales.',
+        duracion: '5 min',
+        generos: [6, 4],
+        calificacion: 4.9,
+        videoUrl: 'https://www.youtube.com/watch?v=01GY7zYN-ps&list=PLHr42J3X9GxzTFYFiMDvYpqoHaGMw13OS&index=2'
     }
 ]
 
